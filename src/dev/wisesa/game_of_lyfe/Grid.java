@@ -34,8 +34,8 @@ public class Grid extends JPanel implements ActionListener {
     }
 
     public Cell updateCell(Cell cell) {
-        int x = cell.x;
-        int y = cell.y;
+        int x = cell.x / this.cellSize;
+        int y = cell.y / this.cellSize;
 
         int neighbor = 0;
 
@@ -49,11 +49,11 @@ public class Grid extends JPanel implements ActionListener {
         for (int[] MOVE : MOVESET) {
             int neighborRow = x + MOVE[0];
             int neighborCol = y + MOVE[1];
+
             //check if the pointer is not out of bound
             if (neighborRow > 0 && neighborCol > 0 && neighborRow < this.nCells && neighborCol < this.nCells) {
                 Cell neighborCell = this.cells[neighborRow][neighborCol];
-                System.out.print("====");
-                System.out.println(neighborCell.x);
+                System.out.println(neighborCell.isAlive);
                 //check if the neighbor active
                 if (neighborCell.isAlive) {
                     neighbor++;
@@ -81,9 +81,6 @@ public class Grid extends JPanel implements ActionListener {
                 cell.setState(true);
             }
         }
-        System.out.print(neighbor);
-        System.out.println(cell.isAlive);
-
         return cell;
     }
 
