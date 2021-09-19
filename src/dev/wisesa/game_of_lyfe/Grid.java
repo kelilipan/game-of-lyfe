@@ -25,9 +25,9 @@ public class Grid extends JPanel implements ActionListener {
         this.cellSize = cellSize;
         this.nCells = (dimension / cellSize);
         this.cells = new Cell[this.nCells][this.nCells];
-        this.generateCells(initLifeProba);
+        this.generateGlider(initLifeProba);
 
-        Timer timer = new Timer(delay, this);
+        Timer timer = new Timer(60, this);
         timer.start();
     }
 
@@ -43,25 +43,40 @@ public class Grid extends JPanel implements ActionListener {
                  * */
 
                 boolean proba = Math.random() < initLifeProba;
-                //boolean randomState = row % (this.nCells / 8) == 0 || col % (this.nCells) == 0;
-                Cell newCell = new Cell(row * this.cellSize, col * this.cellSize, this.cellSize, this.cellSize, proba);
+                //boolean proba = row % (this.nCells / 8) == 0 || col % (this.nCells) == 0;
+                Cell newCell = new Cell(col * this.cellSize, row * this.cellSize, this.cellSize, this.cellSize, proba);
                 this.cells[row][col] = newCell;
             }
         }
     }
 
-//    public void generateGlider(double proba) {
-//        final int[][] gliderDown = {
-//                {0, 1, 0},
-//                {0, 0, 1},
-//                {1, 1, 1}
-//        };
-//        final int[][] gliderUp = {
-//                {1, 1, 1},
-//                {1, 0, 0},
-//                {0, 1, 0}
-//        };
-//    }
+    public void generateGlider(double initLifeProba) {
+        final int[][] gliderDown = {
+                {0, 0, 0},
+                {1, 1, 1},
+                {0, 0, 0}
+        };
+        final int[][] gliderUp = {
+                {0, 0, 1},
+                {1, 0, 1},
+                {0, 1, 1}
+        };
+
+        for (int row = 0; row < this.nCells; row++) {
+            for (int col = 0; col < this.nCells; col++) {
+                Cell newCell = new Cell(col * this.cellSize, row * this.cellSize, this.cellSize, this.cellSize, false);
+                this.cells[row][col] = newCell;
+            }
+        }
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 3; col++) {
+                Cell newCell = this.cells[row][col];
+                newCell.setState(gliderUp[row][col] == 1);
+                this.cells[row][col] = newCell;
+            }
+        }
+
+    }
 
 
     /*
@@ -70,24 +85,25 @@ public class Grid extends JPanel implements ActionListener {
      * @return an updated cell
      * */
     public Cell updateCell(Cell cell) {
-        int x = cell.x / this.cellSize;
-        int y = cell.y / this.cellSize;
-
+        Cell newCell = new Cell(cell.x, cell.y, cell.width, cell.height, cell.isAlive);
+        int col = cell.x / this.cellSize;
+        int row = cell.y / this.cellSize;
         int neighbor = 0;
 
         //Move set representing row,col
+        //1,1
         final int[][] MOVESET = {
                 {-1, -1}, {0, -1}, {1, -1},
-                {-1, 0}, {1, 0},
-                {-1, 1}, {0, 1}, {1, 1},
+                {-1, +0}, {1, +0},
+                {-1, +1}, {0, +1}, {1, +1},
         };
         //count the neighbor
         for (int[] MOVE : MOVESET) {
-            int neighborRow = x + MOVE[0];
-            int neighborCol = y + MOVE[1];
+            int neighborCol = col + MOVE[0];
+            int neighborRow = row + MOVE[1];
 
             //check if the pointer is not out of bound
-            if (neighborRow > 0 && neighborCol > 0 && neighborRow < this.nCells && neighborCol < this.nCells) {
+            if (neighborCol >= 0 && neighborRow >= 0 && neighborCol < this.nCells && neighborRow < this.nCells) {
                 Cell neighborCell = this.cells[neighborRow][neighborCol];
                 //check if the neighbor active
                 if (neighborCell.isAlive) {
@@ -105,18 +121,18 @@ public class Grid extends JPanel implements ActionListener {
         if (cell.isAlive) {
             if (neighbor < 2) {
                 //die because underpopulation
-                cell.setState(false);
+                newCell.setState(false);
             } else if (neighbor > 3) {
                 //die because overpopulation
-                cell.setState(false);
+                newCell.setState(false);
             }
         } else {
             if (neighbor == 3) {
                 //reproduction
-                cell.setState(true);
+                newCell.setState(true);
             }
         }
-        return cell;
+        return newCell;
     }
 
     /*
@@ -144,8 +160,9 @@ public class Grid extends JPanel implements ActionListener {
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
         //paint all cells
-        for (int row = 0; row < this.nCells; row++) {
-            for (int col = 0; col < this.nCells; col++) {
+        graphics.setColor(Color.white);
+        for (int col = 0; col < this.nCells; col++) {
+            for (int row = 0; row < this.nCells; row++) {
                 Cell cell = this.cells[row][col];
                 if (cell.isAlive) {
                     graphics.setColor(Color.black);
@@ -153,6 +170,8 @@ public class Grid extends JPanel implements ActionListener {
                     graphics.setColor(Color.white);
                 }
                 graphics.fillRect(cell.x, cell.y, cell.width, cell.height);
+//                graphics.setColor(Color.red);
+//                graphics.drawString(col + " " + row, cell.x + 20, cell.y + 20);
             }
         }
     }
