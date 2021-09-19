@@ -19,7 +19,7 @@ public class Grid extends JPanel implements ActionListener {
         this.cells = new Cell[this.nCells][this.nCells];
         this.generateCells(initLifeProba);
 
-        Timer timer = new Timer(1000, this);
+        Timer timer = new Timer(100, this);
         timer.start();
     }
 
@@ -53,7 +53,6 @@ public class Grid extends JPanel implements ActionListener {
             //check if the pointer is not out of bound
             if (neighborRow > 0 && neighborCol > 0 && neighborRow < this.nCells && neighborCol < this.nCells) {
                 Cell neighborCell = this.cells[neighborRow][neighborCol];
-                System.out.println(neighborCell.isAlive);
                 //check if the neighbor active
                 if (neighborCell.isAlive) {
                     neighbor++;

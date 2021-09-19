@@ -6,10 +6,11 @@ import java.awt.*;
 public class GUI extends JFrame {
     GUI() {
         super("Game Of Life");
-        Grid grid = new Grid(400, 40, 0.2);
+        final int DIMENSION = 800;
+        Grid grid = new Grid(DIMENSION, 10, 0.1);
         grid.setBackground(Color.white);
         add(grid);
-        setSize(400, 400);
+        setSize(DIMENSION, DIMENSION);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
