@@ -17,6 +17,9 @@ public class GUI extends JFrame {
   grid.setBackground(Color.white);
   add(grid);
   setSize(400,400);
+
+
+  setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
   setVisible(true);
  }
 }
