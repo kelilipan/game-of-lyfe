@@ -6,7 +6,7 @@ import java.awt.*;
 public class GUI extends JFrame {
     GUI() {
         super("Game Of Life");
-        Canvas grid = new Grid(400, 10, 0.5);
+        Grid grid = new Grid(400, 10, 0.3);
         grid.setBackground(Color.white);
         add(grid);
         setSize(400, 400);
