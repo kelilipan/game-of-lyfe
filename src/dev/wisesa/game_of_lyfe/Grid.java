@@ -12,6 +12,13 @@ public class Grid extends JPanel implements ActionListener {
     private final int nCells;
     private int generation = 0;
 
+    /*
+     * Grid class to draw all cells
+     * @param dimension of the Grid
+     * @param cellSize the size or the dimension of each cell
+     * @param initLifeProba probability of a cell to live at initialization
+     * @param delay of frame update
+     * */
     Grid(int dimension, int cellSize, double initLifeProba, int delay) {
         this.setPreferredSize(new Dimension(dimension, dimension));
         this.setBackground(Color.white);
@@ -24,6 +31,10 @@ public class Grid extends JPanel implements ActionListener {
         timer.start();
     }
 
+    /*
+     * Function to randomly initialize cells
+     * @param initLifeProba probability of a cell to live at initialization
+     * */
     public void generateCells(double initLifeProba) {
         for (int row = 0; row < this.nCells; row++) {
             for (int col = 0; col < this.nCells; col++) {
@@ -34,6 +45,11 @@ public class Grid extends JPanel implements ActionListener {
         }
     }
 
+    /*
+     * Method to count neighbor of q cell and update the next state of cell
+     * @param cell the cell itself
+     * @return an updated cell
+     * */
     public Cell updateCell(Cell cell) {
         int x = cell.x / this.cellSize;
         int y = cell.y / this.cellSize;
@@ -84,6 +100,9 @@ public class Grid extends JPanel implements ActionListener {
         return cell;
     }
 
+    /*
+     * Method to update all cells to next state
+     * */
     public void nextGeneration() {
 
         //create array to store next generation
@@ -104,6 +123,7 @@ public class Grid extends JPanel implements ActionListener {
     @Override
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
+        //paint all cells
         for (int row = 0; row < this.nCells; row++) {
             for (int col = 0; col < this.nCells; col++) {
                 Cell cell = this.cells[row][col];
