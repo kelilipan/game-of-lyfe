@@ -12,7 +12,7 @@ public class Grid extends JPanel implements ActionListener {
     private final int nCells;
     private int generation = 0;
 
-    Grid(int dimension, int cellSize, double initLifeProba) {
+    Grid(int dimension, int cellSize, double initLifeProba, int delay) {
         this.setPreferredSize(new Dimension(dimension, dimension));
         this.setBackground(Color.white);
         this.cellSize = cellSize;
@@ -20,7 +20,7 @@ public class Grid extends JPanel implements ActionListener {
         this.cells = new Cell[this.nCells][this.nCells];
         this.generateCells(initLifeProba);
 
-        Timer timer = new Timer(80, this);
+        Timer timer = new Timer(delay, this);
         timer.start();
     }
 
