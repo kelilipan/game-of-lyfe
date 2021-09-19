@@ -1,9 +1,9 @@
 package dev.wisesa.game_of_lyfe;
 
-import java.awt.*;
+import java.awt.Rectangle;
 
 public class Cell extends Rectangle {
-    public boolean isAlive = false;
+    public boolean isAlive;
 
     Cell(int x, int y, int width, int height, boolean state) {
         super(x, y, width, height);

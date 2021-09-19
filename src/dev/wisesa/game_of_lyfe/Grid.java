@@ -56,7 +56,7 @@ public class Grid extends JPanel implements ActionListener {
 
         int neighbor = 0;
 
-        //Move set representing x,y
+        //Move set representing row,col
         final int[][] MOVESET = {
                 {-1, -1}, {0, -1}, {1, -1},
                 {-1, 0}, {1, 0},
@@ -115,6 +115,7 @@ public class Grid extends JPanel implements ActionListener {
                 newGeneration[row][col] = newCell;
             }
         }
+        //update current gen with next generation
         this.cells = newGeneration;
         this.generation++;
         System.out.println("GENERATION = " + this.generation);

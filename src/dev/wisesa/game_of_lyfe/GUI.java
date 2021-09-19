@@ -7,7 +7,7 @@ public class GUI extends JFrame {
     GUI() {
         super("Game Of Life");
         final int DIMENSION = 800;
-        Grid grid = new Grid(DIMENSION, 8, 0.1, 80);
+        Grid grid = new Grid(DIMENSION, 8, 0.06, 60);
         add(grid);
         setSize(DIMENSION, DIMENSION);
 
