@@ -10,6 +10,7 @@ public class Grid extends JPanel implements ActionListener {
 
     private Cell[][] cells;
     private final int nCells;
+    private int generation = 0;
 
     Grid(int dimension, int cellSize, double initLifeProba) {
         this.setPreferredSize(new Dimension(dimension, dimension));
@@ -19,7 +20,7 @@ public class Grid extends JPanel implements ActionListener {
         this.cells = new Cell[this.nCells][this.nCells];
         this.generateCells(initLifeProba);
 
-        Timer timer = new Timer(100, this);
+        Timer timer = new Timer(80, this);
         timer.start();
     }
 
@@ -96,6 +97,8 @@ public class Grid extends JPanel implements ActionListener {
             }
         }
         this.cells = newGeneration;
+        this.generation++;
+        System.out.println("GENERATION = " + this.generation);
     }
 
     @Override
