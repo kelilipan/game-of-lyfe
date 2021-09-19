@@ -27,7 +27,7 @@ public class Grid extends JPanel implements ActionListener {
         this.cells = new Cell[this.nCells][this.nCells];
         this.generateCells(initLifeProba);
 
-        Timer timer = new Timer(60, this);
+        Timer timer = new Timer(delay, this);
         timer.start();
     }
 
@@ -42,14 +42,27 @@ public class Grid extends JPanel implements ActionListener {
                  * you can messing around with this
                  * */
 
-//                boolean proba = Math.random() < 0.2;
-
-                boolean randomState = row % (this.nCells / 8) == 0 || col % (this.nCells) == 0;
-                Cell newCell = new Cell(row * this.cellSize, col * this.cellSize, this.cellSize, this.cellSize, randomState);
+                boolean proba = Math.random() < initLifeProba;
+                //boolean randomState = row % (this.nCells / 8) == 0 || col % (this.nCells) == 0;
+                Cell newCell = new Cell(row * this.cellSize, col * this.cellSize, this.cellSize, this.cellSize, proba);
                 this.cells[row][col] = newCell;
             }
         }
     }
+
+//    public void generateGlider(double proba) {
+//        final int[][] gliderDown = {
+//                {0, 1, 0},
+//                {0, 0, 1},
+//                {1, 1, 1}
+//        };
+//        final int[][] gliderUp = {
+//                {1, 1, 1},
+//                {1, 0, 0},
+//                {0, 1, 0}
+//        };
+//    }
+
 
     /*
      * Method to count neighbor of q cell and update the next state of cell
