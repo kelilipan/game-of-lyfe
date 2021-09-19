@@ -27,7 +27,7 @@ public class Grid extends JPanel implements ActionListener {
         this.cells = new Cell[this.nCells][this.nCells];
         this.generateCells(initLifeProba);
 
-        Timer timer = new Timer(delay, this);
+        Timer timer = new Timer(60, this);
         timer.start();
     }
 
@@ -38,7 +38,13 @@ public class Grid extends JPanel implements ActionListener {
     public void generateCells(double initLifeProba) {
         for (int row = 0; row < this.nCells; row++) {
             for (int col = 0; col < this.nCells; col++) {
-                boolean randomState = Math.random() < initLifeProba;
+                /*
+                 * you can messing around with this
+                 * */
+
+//                boolean proba = Math.random() < 0.2;
+
+                boolean randomState = row % (this.nCells / 8) == 0 || col % (this.nCells) == 0;
                 Cell newCell = new Cell(row * this.cellSize, col * this.cellSize, this.cellSize, this.cellSize, randomState);
                 this.cells[row][col] = newCell;
             }
