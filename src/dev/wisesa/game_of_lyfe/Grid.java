@@ -6,26 +6,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Grid extends JPanel implements ActionListener {
-    private final int dimension;
     private final int cellSize;
-    private final double initLifeProba;
 
     private Cell[][] cells;
-    private int nCells;
-
-    private Timer timer;
+    private final int nCells;
 
     Grid(int dimension, int cellSize, double initLifeProba) {
         this.setPreferredSize(new Dimension(dimension, dimension));
         this.setBackground(Color.white);
-        this.dimension = dimension;
         this.cellSize = cellSize;
         this.nCells = (dimension / cellSize);
         this.cells = new Cell[this.nCells][this.nCells];
-        this.initLifeProba = initLifeProba;
         this.generateCells(initLifeProba);
 
-        this.timer = new Timer(80, this);
+        Timer timer = new Timer(10000, this);
         timer.start();
     }
 
@@ -40,7 +34,6 @@ public class Grid extends JPanel implements ActionListener {
     }
 
     public Cell updateCell(Cell cell) {
-
         int x = cell.x;
         int y = cell.y;
 
@@ -73,6 +66,21 @@ public class Grid extends JPanel implements ActionListener {
          * Any live cell with more than three live neighbours dies, as if by overpopulation.
          * Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
          **/
+        if (cell.isAlive) {
+            if (neighbor < 2) {
+                //die because underpopulation
+                cell.setState(false);
+            } else if (neighbor > 3) {
+                //die because overpopulation
+                cell.setState(false);
+            }
+        } else {
+            if (neighbor == 3) {
+                //reproduction
+                cell.setState(true);
+            }
+        }
+
         return cell;
     }
 
@@ -84,9 +92,11 @@ public class Grid extends JPanel implements ActionListener {
         for (int row = 0; row < this.nCells; row++) {
             for (int col = 0; col < this.nCells; col++) {
                 Cell cell = this.cells[row][col];
+                Cell newCell = this.updateCell(cell);
+                newGeneration[row][col] = newCell;
             }
         }
-
+        this.cells = newGeneration;
     }
 
     @Override
@@ -107,7 +117,7 @@ public class Grid extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        this.generateCells(this.initLifeProba);
+        this.nextGeneration();
         this.repaint();
     }
 }
