@@ -39,9 +39,53 @@ public class Grid extends JPanel implements ActionListener {
         }
     }
 
+    public Cell updateCell(Cell cell) {
+
+        int x = cell.x;
+        int y = cell.y;
+
+        int neighbor = 0;
+
+        //Move set representing x,y
+        final int[][] MOVESET = {
+                {-1, -1}, {0, -1}, {1, -1},
+                {-1, 0}, {1, 0},
+                {-1, 1}, {0, 1}, {1, 1},
+        };
+        //count the neighbor
+        for (int[] MOVE : MOVESET) {
+            int neighborX = x + MOVE[0];
+            int neighborY = y + MOVE[1];
+
+            //check if the pointer is not out of bound
+            if (neighborX > 0 && neighborY > 0 && neighborX < this.nCells && neighborY < this.nCells) {
+                Cell neighborCell = this.cells[neighborX][neighborY];
+                //check if the neighbor active
+                if (neighborCell.isAlive) {
+                    neighbor++;
+                }
+            }
+        }
+
+        /*
+         * Any live cell with fewer than two live neighbours dies, as if by underpopulation.
+         * Any live cell with two or three live neighbours lives on to the next generation.
+         * Any live cell with more than three live neighbours dies, as if by overpopulation.
+         * Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
+         **/
+        return cell;
+    }
+
     public void nextGeneration() {
-//        create array to store next generation
+
+        //create array to store next generation
         Cell[][] newGeneration = new Cell[this.nCells][this.nCells];
+
+        for (int row = 0; row < this.nCells; row++) {
+            for (int col = 0; col < this.nCells; col++) {
+                Cell cell = this.cells[row][col];
+            }
+        }
 
     }
 
