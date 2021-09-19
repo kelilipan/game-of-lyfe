@@ -3,17 +3,20 @@ package dev.wisesa.game_of_lyfe;
 import java.awt.*;
 
 public class Grid extends Canvas {
-    private int dimension;
-    private int cellSize;
+    private final int dimension;
+    private final int cellSize;
 
     private Cell[][] cells;
 
-    private double initLifeProba = 0.5;
 
-    Grid(int dimension, int cellSize) {
+    Grid(int dimension, int cellSize, double initLifeProba) {
         this.dimension = dimension;
         this.cellSize = cellSize;
-        int nCells = dimension / cellSize;
+        this.generateCells(initLifeProba);
+    }
+
+    public void generateCells(double initLifeProba) {
+        int nCells = (dimension / cellSize);
         this.cells = new Cell[nCells][nCells];
         for (int row = 0; row < nCells; row++) {
             for (int col = 0; col < nCells; col++) {
@@ -31,7 +34,7 @@ public class Grid extends Canvas {
         int nCells = dimension / cellSize;
         for (int row = 0; row < nCells; row++) {
             for (int col = 0; col < nCells; col++) {
-                Cell cell = cells[row / 20][col / 20];
+                Cell cell = cells[row][col];
                 System.out.println(cell.isAlive);
                 System.out.println(cell.x);
                 System.out.println(cell.y);
