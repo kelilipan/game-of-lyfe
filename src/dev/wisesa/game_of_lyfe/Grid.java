@@ -25,7 +25,7 @@ public class Grid extends JPanel implements ActionListener {
         this.cellSize = cellSize;
         this.nCells = (dimension / cellSize);
         this.cells = new Cell[this.nCells][this.nCells];
-        this.generateGlider(initLifeProba);
+        this.generateCells(initLifeProba);
 
         Timer timer = new Timer(60, this);
         timer.start();
@@ -52,11 +52,6 @@ public class Grid extends JPanel implements ActionListener {
 
     public void generateGlider(double initLifeProba) {
         final int[][] gliderDown = {
-                {0, 0, 0},
-                {1, 1, 1},
-                {0, 0, 0}
-        };
-        final int[][] gliderUp = {
                 {0, 0, 1},
                 {1, 0, 1},
                 {0, 1, 1}
@@ -71,7 +66,7 @@ public class Grid extends JPanel implements ActionListener {
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
                 Cell newCell = this.cells[row][col];
-                newCell.setState(gliderUp[row][col] == 1);
+                newCell.setState(gliderDown[row][col] == 1);
                 this.cells[row][col] = newCell;
             }
         }
