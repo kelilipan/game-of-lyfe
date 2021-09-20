@@ -27,7 +27,7 @@ public class Grid extends JPanel implements ActionListener {
         this.cells = new Cell[this.nCells][this.nCells];
         this.generateCells(initLifeProba);
 
-        Timer timer = new Timer(60, this);
+        Timer timer = new Timer(delay, this);
         timer.start();
     }
 
@@ -43,7 +43,7 @@ public class Grid extends JPanel implements ActionListener {
                  * */
 
                 boolean proba = Math.random() < initLifeProba;
-                //boolean proba = row % (this.nCells / 8) == 0 || col % (this.nCells) == 0;
+                //boolean proba = row % (this.nCells / 3) == 0 || col % (this.nCells / 3) == 0;
                 Cell newCell = new Cell(col * this.cellSize, row * this.cellSize, this.cellSize, this.cellSize, proba);
                 this.cells[row][col] = newCell;
             }
@@ -86,7 +86,7 @@ public class Grid extends JPanel implements ActionListener {
         int neighbor = 0;
 
         //Move set representing row,col
-        //1,1
+        //1,1nee
         final int[][] MOVESET = {
                 {-1, -1}, {0, -1}, {1, -1},
                 {-1, +0}, {1, +0},
